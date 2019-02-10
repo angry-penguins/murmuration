@@ -20,6 +20,7 @@ setup(name='murmuration',
       version=version,
       description="encryption primitives for use with aws",
       long_description=long_description,
+      long_description_content_type='text/markdown',
       classifiers=[
           'Development Status :: 5 - Production/Stable',
           'Intended Audience :: Developers',
