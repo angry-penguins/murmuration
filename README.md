@@ -1,2 +1,2 @@
-# murmuration
+# murmuration ![Build Status](https://codebuild.us-east-2.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiWk1NT3pKUUVNRXJ1THFrd2ZncTBRRlVWNGl5Nmk3czJKU21ldEpOMmJHV0NRYjBoK2lESUFuWnAyS3FtMUQwakU1bW95MXlsYW9SZy9KakxER1RsemNVPSIsIml2UGFyYW1ldGVyU3BlYyI6InVJdlBpMnBMYTBRNHhQa0siLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=master)
 encryption primitives for use with aws kms
