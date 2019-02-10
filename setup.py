@@ -9,12 +9,17 @@ try:
 except ImportError:
     bdist_wheel = None
 
-version = '0.1'
+with open('version', 'r') as f:
+    version = f.read()
+    version = version.strip()
+
+with open('README.md', 'r') as f:
+    long_description = f.read()
 
 setup(name='murmuration',
       version=version,
       description="encryption primitives for use with aws",
-      long_description="""encryption primitives for use with aws""",
+      long_description=long_description,
       classifiers=[
           'Development Status :: 5 - Production/Stable',
           'Intended Audience :: Developers',
@@ -23,12 +28,14 @@ setup(name='murmuration',
           'Programming Language :: Python :: 3.6',
           'Programming Language :: Python :: 3.7',
           'License :: OSI Approved :: BSD License',
+          'Topic :: Security :: Cryptography',
+          'Topic :: Utilities',
       ], # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
       cmdclass={'bdist_wheel': bdist_wheel},
-      keywords='aws python parameter-store kms',
+      keywords='aws python encryption cryptography kms',
       author='Preetam Shingavi',
       author_email='p.shingavi@yahoo.com',
-      url='https://github.com/angry-penguins/waddle',
+      url='https://github.com/angry-penguins/murmuration',
       license='BSD',
       packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
       include_package_data=True,
