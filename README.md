@@ -66,4 +66,3 @@ ciphertext = kms_wrapped.encrypt(plaintext, key_alias, region='us-west-1', profi
 decrypted = kms_wrapped.decrypt(ciphertext, region='us-west-1', profile='company')
 assert decrypted == plaintext
 ```
-

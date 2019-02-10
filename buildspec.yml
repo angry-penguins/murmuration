@@ -8,3 +8,6 @@ phases:
     commands:
       - "make check"
 artifacts: {}
+cache:
+  paths:
+    - /root/.cache/pip/**/*
