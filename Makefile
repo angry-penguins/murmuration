@@ -17,8 +17,8 @@ setup:
 	if which python3.7 >/dev/null && [ ! -d bin ] ; then python3.7 -m venv . ; fi
 	if which python3.6 >/dev/null && [ ! -d bin ] ; then python3.6 -m venv . ; fi
 	source bin/activate \
-	  && python -m pip install -U pip \
-	  && pip install -r requirements.txt
+	  && python -m pip install -q -U pip \
+	  && pip install -q -r requirements.txt
 
 build:
 	source bin/activate \
