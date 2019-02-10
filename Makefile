@@ -29,3 +29,10 @@ clean:
 	source bin/activate \
 	  && python -B -O setup.py clean
 	rm -rf build dist
+
+upload:
+	source bin/activate \
+	  && twine upload dist/*
+
+deploy: clean build upload
+
