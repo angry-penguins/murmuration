@@ -41,7 +41,7 @@ def _gcm_unpack(value):
     return values
 
 
-def encrypt(plain_text, key=None, auth_header='djenga'):
+def encrypt(plain_text, key=None, auth_header='murmuration'):
     """
     The encrypt function encrypts a unicode string using the
     Blowfish cipher (provided by pycrypto).  The key used is
