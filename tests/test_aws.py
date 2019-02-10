@@ -2,7 +2,6 @@ import os
 from subprocess import Popen
 from unittest import TestCase
 from murmuration.aws import cached_session
-from murmuration.aws import kms_client
 
 
 __all__ = [
@@ -11,6 +10,8 @@ __all__ = [
 
 
 class Aws(TestCase):
+    plaintext = 'hello, peanut!'
+
     def setUp(self):
         region = os.environ.get('AWS_REGION', 'us-east-2')
         access_key_id = os.environ.get('AWS_ACCESS_KEY_ID', 'cody')
@@ -26,12 +27,25 @@ class Aws(TestCase):
             f'aws_secret_access_key {secret_access_key}' ])
         handle.communicate()
 
+    def kms(self):
+        from murmuration.kms import encrypt
+        from murmuration.kms import decrypt
+        value = encrypt(self.plaintext, 'dev', 'us-east-2', 'company')
+        value = decrypt(value, 'us-east-2', 'company')
+        self.assertEqual(value, self.plaintext)
+
+    def kms_wrapped(self):
+        from murmuration.kms_wrapped import encrypt
+        from murmuration.kms_wrapped import decrypt
+        value = encrypt(self.plaintext, 'dev', 'us-east-2', 'company')
+        value = decrypt(value, 'us-east-2', 'company')
+        self.assertEqual(value, self.plaintext)
+
     def test_session(self):
         session = cached_session('us-east-2', 'company')
         self.assertEqual(session.profile_name, 'company')
         self.assertEqual(session.region_name, 'us-east-2')
         x = cached_session('us-east-2', 'company')
         self.assertIs(session, x)
-
-        client = kms_client()
-        self.assertEqual(client.__class__.__name__, 'KMS')
+        self.kms()
+        self.kms_wrapped()

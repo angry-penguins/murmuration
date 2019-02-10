@@ -45,7 +45,8 @@ def main():
     parser = get_parser()
     args = parser.parse_args()
     # do not print prompt if input is being piped
-    if sys.stdin.isatty():
+    tty = sys.stdin.isatty()
+    if tty:
         print('Enter plaintext: ', end='', file=sys.stderr)
         sys.stderr.flush()
     stdin = os.fdopen(sys.stdin.fileno(), 'rb', 0)
@@ -56,7 +57,7 @@ def main():
         alias=args.key,
         profile=args.profile,
         region=args.region)
-    print(f'{value}')
+    print(f'{value}', end='\n' if tty else '')
 
 
 if __name__ == "__main__":
