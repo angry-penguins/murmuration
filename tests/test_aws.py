@@ -1,6 +1,7 @@
 import os
 from subprocess import Popen
 from unittest import TestCase
+import pytest
 from murmuration.aws import cached_session
 
 
@@ -47,6 +48,8 @@ class Aws(TestCase):
         value = encrypt(self.plaintext, 'dev', profile=self.profile)
         value = decrypt(value, profile=self.profile)
         self.assertEqual(value, self.plaintext)
+        with self.assertRaises(ValueError):
+            decrypt('nonce')
 
     def test_session(self):
         session = cached_session(region='us-east-2', profile=self.profile)

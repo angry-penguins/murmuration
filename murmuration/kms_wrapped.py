@@ -25,6 +25,8 @@ def decrypt_bytes(
         region: str = None,
         profile: str = None) -> bytes:
     pieces = packed_value.split('|', 1)
+    if len(pieces) != 2:
+        raise ValueError('Invalid wrapped secret, no data key found')
     wrapped_data_key = pieces[0]
     wrapped_data_key = from_b64_str(wrapped_data_key)
     client = kms_client(region, profile)
