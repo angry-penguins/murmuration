@@ -1,7 +1,6 @@
 import os
 from subprocess import Popen
 from unittest import TestCase
-import pytest
 from murmuration.aws import cached_session
 
 
