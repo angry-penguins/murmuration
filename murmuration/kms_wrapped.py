@@ -1,3 +1,5 @@
+import binascii
+from botocore.exceptions import ClientError
 from .helpers import as_bytes
 from .helpers import from_b64_str
 from .aws import kms_client
@@ -28,9 +30,15 @@ def decrypt_bytes(
     if len(pieces) != 2:
         raise ValueError('Invalid wrapped secret, no data key found')
     wrapped_data_key = pieces[0]
-    wrapped_data_key = from_b64_str(wrapped_data_key)
+    try:
+        wrapped_data_key = from_b64_str(wrapped_data_key)
+    except binascii.Error:
+        raise ValueError('data key is not properly base64 encoded')
     client = kms_client(region, profile)
-    response = client.decrypt(CiphertextBlob=wrapped_data_key)
+    try:
+        response = client.decrypt(CiphertextBlob=wrapped_data_key)
+    except ClientError as ex:
+        raise ValueError(*ex.args)
     data_key = response['Plaintext']
     plain_text = gcm_decrypt(packed_value, data_key)
     return plain_text

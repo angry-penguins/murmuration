@@ -2,6 +2,7 @@ import os
 from subprocess import Popen
 from unittest import TestCase
 from murmuration.aws import cached_session
+from murmuration.helpers import b64_str
 
 
 __all__ = [
@@ -49,6 +50,10 @@ class Aws(TestCase):
         self.assertEqual(value, self.plaintext)
         with self.assertRaises(ValueError):
             decrypt('nonce')
+        with self.assertRaises(ValueError):
+            decrypt('no|nce')
+        with self.assertRaises(ValueError):
+            decrypt(f'{b64_str("no")}|nce')
 
     def test_session(self):
         session = cached_session(region='us-east-2', profile=self.profile)
