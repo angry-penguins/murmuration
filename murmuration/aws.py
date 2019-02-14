@@ -25,11 +25,11 @@ def cached_session(region: str = None, profile: str = None):
 
 def cached_client(client: str, region: str = None, profile: str = None):
     key = f'{region}-{profile}-{client}'
-    client = cache.clients.get(key)
-    if not client:
+    x = cache.clients.get(key)
+    if not x:
         session = cached_session(region, profile)
-        client = cache.clients[key] = session.client('kms')
-    return client
+        x = cache.clients[key] = session.client(client)
+    return x
 
 
 def kms_client(region: str = None, profile: str = None):

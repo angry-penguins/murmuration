@@ -2,6 +2,7 @@ import os
 from subprocess import Popen
 from unittest import TestCase
 from murmuration.aws import cached_session
+from murmuration.aws import cached_client
 from murmuration.helpers import b64_str
 
 
@@ -63,3 +64,7 @@ class Aws(TestCase):
         self.assertIs(session, x)
         self.kms()
         self.kms_wrapped()
+
+    def test_cached_client(self):
+        x = cached_client('ec2', region='us-east-2', profile=self.profile)
+        self.assertEqual(x.__class__.__name__.lower(), 'ec2')
