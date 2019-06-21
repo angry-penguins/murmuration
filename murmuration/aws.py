@@ -3,32 +3,41 @@ import boto3
 
 
 cache = local()
-cache.sessions = {}
-cache.clients = {}
 
 
 __all__ = [
     'kms_client',
     'cached_client',
     'cached_session',
+    'threadlocal_var',
 ]
+
+
+def threadlocal_var(varname, factory, *a, **k):
+    v = getattr(cache, varname, None)
+    if v is None:
+        v = factory(*a, **k)
+        setattr(cache, varname, v)
+    return v
 
 
 def cached_session(region: str = None, profile: str = None):
     key = f'{region}-{profile}'
-    session = cache.sessions.get(key)
+    sessions = threadlocal_var('session', dict)
+    session = sessions.get(key)
     if not session:
         session = boto3.Session(region_name=region, profile_name=profile)
-        cache.sessions[key] = session
+        sessions[key] = session
     return session
 
 
 def cached_client(client: str, region: str = None, profile: str = None):
     key = f'{region}-{profile}-{client}'
-    x = cache.clients.get(key)
+    clients = threadlocal_var('client', dict)
+    x = clients.get(key)
     if not x:
         session = cached_session(region, profile)
-        x = cache.clients[key] = session.client(client)
+        x = clients[key] = session.client(client)
     return x
 
 
