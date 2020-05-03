@@ -1,5 +1,5 @@
 from threading import local
-import boto3
+from boto3 import Session
 
 
 cache = local()
@@ -26,7 +26,10 @@ def cached_session(region: str = None, profile: str = None):
     sessions = threadlocal_var('session', dict)
     session = sessions.get(key)
     if not session:
-        session = boto3.Session(region_name=region, profile_name=profile)
+        if profile and profile in Session().available_profiles:
+            session = Session(region_name=region, profile_name=profile)
+        else:
+            session = Session(region_name=region)
         sessions[key] = session
     return session
 
